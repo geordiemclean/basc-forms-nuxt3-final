@@ -117,16 +117,25 @@ export const useStore = defineStore('store', {
       },
        // DEFAULT APi Calls
        async addSubDocument(collectionRef, docRef, subCollectionRef, info) {
-        return await useFetch('/api/addSubDoc', {
-          method: 'post',
-          body: {
+        return  await fetch('/api/addSubDoc', {
+          method: 'POST',
+          body: JSON.stringify({
             collectionRef: collectionRef,
             docRef: docRef,
             subCollectionRef: subCollectionRef,
             info: info,
-          },
-          initialCache: false 
-        })
+          }),
+        });
+        // return await useFetch('/api/addSubDoc', {
+        //   method: 'post',
+        //   body: {
+        //     collectionRef: collectionRef,
+        //     docRef: docRef,
+        //     subCollectionRef: subCollectionRef,
+        //     info: info,
+        //   },
+        //   initialCache: false 
+        // })
       },
       async setDocument(collectionRef, docRef, info) {
         return await useFetch('/api/setDoc', {

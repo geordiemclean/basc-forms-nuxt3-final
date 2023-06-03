@@ -254,8 +254,9 @@
     this.fetchTemplateData()
       },
       beforeMount() {
-        
+      
       window.addEventListener("beforeunload", event => {
+        if (this.$route.name === 'index' || this.$route.name === 'form-complete') return
         event.preventDefault()
         // Chrome requires returnValue to be set.
         event.returnValue = ""
