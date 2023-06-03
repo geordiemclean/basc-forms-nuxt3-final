@@ -10,14 +10,21 @@
         </ul>
       </nav>
     </header> -->
-    <div >
-      <slot />
-    </div>
+  
+      <v-app >
+        <AppLoading />
+        <Snackbar />
+   <slot  />
+
+    </v-app>
+    
   </div>
 </template>
 
-<style scoped>
-  .router-link-exact-active {
-    color: #12b488;
-  }
-</style>
+<script setup>
+ import AppLoading from '../components/Loaders/AppLoading.vue';
+import Snackbar from '../components/Helpers/Snackbar.vue';
+
+    await useFetch('/api/users')
+   
+</script>

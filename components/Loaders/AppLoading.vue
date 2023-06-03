@@ -1,24 +1,23 @@
 <template >
-    <v-dialog v-model="visitorStore.appLoading">
-        <v-row  class="my-auto" v-if="visitorStore.appLoading" justify="center">
-            <v-progress-circular :size="200" :width="15" color="primary" :indeterminate="visitorStore.appLoading" />
+    <v-dialog v-model="store.appLoading">
+        <v-row  class="my-auto" v-if="store.appLoading" justify="center">
+            <v-progress-circular :size="200" :width="15" color="primary" :indeterminate="store.appLoading" />
         </v-row>
         <v-row justify="center">
             <h3>
-                {{ visitorStore.loadingText }}
+                {{ store.loadingText }}
             </h3>
         </v-row>
     </v-dialog>
 </template>
 
 <script>
-    import { useVisitorStore } from '../../stores/VisitorStore'
+    import { useStore } from '../../stores/Store'
     
     export default {
         setup () {
-            const visitorStore = useVisitorStore()
-           // visitorStore.snackbarSet('Success', 'green', 'Testing')
-            return { visitorStore }
+            const store = useStore()
+            return { store }
         },
     }
 </script>

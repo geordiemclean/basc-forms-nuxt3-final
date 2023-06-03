@@ -35,6 +35,7 @@ export default defineNuxtConfig({
     project_id: process.env.project_id,
     private_key: process.env.private_key,
     client_email: process.env.client_email,
+    storage_bucket: process.env.storage_bucket,
    // currencyKey: process.env.CURRENCY_API_KEY,
   }
 })
