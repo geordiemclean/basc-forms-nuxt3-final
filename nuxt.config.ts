@@ -20,9 +20,9 @@ export default defineNuxtConfig({
   ],
   app: {
     head: {
-      title: 'Forms BASC',
+      title: 'Visitors BASC',
       meta: [
-        {name: 'description', content: 'Bondi BASC Forms'}
+        {name: 'description', content: 'Bondi BASC Visitor Check In'}
       ],
       link: [
         {rel: 'stylesheet', href: 'https://fonts.googleapis.com/css2?family=Open+Sans&family=Quicksand&display=swap' },
