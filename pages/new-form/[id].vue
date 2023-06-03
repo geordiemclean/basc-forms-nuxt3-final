@@ -353,7 +353,8 @@
            try { await vm.store.addDocument('mail', info)
           .then((res) => { 
             vm.submitted = true
-           vm.$router.push('/form-complete')
+           vm.$router.push('/')
+           vm.store.formComplete(vm.parentFirstName)
            vm.store.snackbarSet('green', 'Success', 'Form Submitted!')
            vm.processing = false
            vm.appLoading = false

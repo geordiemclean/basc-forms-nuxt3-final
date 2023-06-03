@@ -11,8 +11,22 @@ export const useStore = defineStore('store', {
         formTemplate: [],
         // dialog leave
         dialogLeave: false,
+        // dialog complete
+        dialogComplete: false,
+        contactName: '',
     }),
     actions: {
+      formComplete(name) {
+        var vm = this
+        if (name)
+        {
+        vm.contactName = name
+        }
+        vm.dialogComplete = true
+        setTimeout(() => {
+          vm.dialogComplete = false
+        }, 5000);
+      },
        // start dialog leave
        createPromise() {
         return new Promise(resolve => {

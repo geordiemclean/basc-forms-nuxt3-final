@@ -321,6 +321,12 @@
               lastName: "",
               yearGroup: "",
               vacExcursions: [],
+              // email
+              emailSelected: [],
+              columnOneStyle: "width:50%; padding: 10px; font-weight:bold; font-size: 18px; font-family: Arial, Helvetica, sans-serif; border: 1px solid  black;",
+              columnTwoStyle: "width:50%; padding: 10px;  font-size: 18px; font-family: Arial, Helvetica, sans-serif; border: 1px solid black;" ,
+              titleStyle: 'font-weight:bold;  color: #2196F3; font-size: 20px; font-family: Arial, Helvetica, sans-serif; ',
+              paragraphStyle: 'font-weight:light;  color: black; font-size: 20px; font-family: Arial, Helvetica, sans-serif; ',
           };
       },
       mounted() {
@@ -361,6 +367,7 @@
                   dateSigned: format(new Date(), "dd/MM/yyyy"),
               }));
           },
+
       },
       beforeMount() {
         window.addEventListener("beforeunload", event => {
@@ -385,6 +392,42 @@
         }
       },
       methods: {
+        async sendEmailNew () {
+            var vm = this
+            let html = `
+           <span style="${this.titleStyle}"> Excursion Authorisation Form</span>
+              <tr>
+                <td style="${this.columnOneStyle}" >Child </td>
+                <td style="${this.columnTwoStyle}">${vm.firstName} ${vm.lastName} (${vm.yearGroup})</td> 
+                </tr>
+                    ${vm.emailSelected.map(item => `
+                      <tr><td style="${this.columnOneStyle}" >Excursion</td><td style="${this.columnTwoStyle}">${item.title}</td></tr>`).join('')}
+            <tr>
+              <td style="${this.columnOneStyle}" >Parent / Guardian</td>
+              <td style="${this.columnTwoStyle}">${vm.contactFirstName} ${vm.contactLastName}</td> 
+              </tr>
+              <tr>
+              <td style="${this.columnOneStyle}" >Date</td>
+              <td style="${this.columnTwoStyle}">${format(new Date(), 'dd/MM/yyyy')}</td> 
+              </tr>
+              <tr>
+              <td style="${this.columnOneStyle}" >Time</td>
+              <td style="${this.columnTwoStyle}">${format(new Date(), 'HH:mm')}</td> 
+              </tr>
+                    `
+            let message = {
+                    subject: `New ${vm.id} Excursion Form`,
+                    html: html,
+                }
+            const info = {
+                to: "bondiaftercare@gmail.com",
+                message: message,
+                from: 'New Parent Form" <bondiaftercare2@gmail.com>'
+            }
+           
+           vm.store.addDocument('mail', info)
+          
+        },
           updateArray(index, value, signatureType) {
               var vm = this;
               if (signatureType === "parent") {
@@ -411,6 +454,7 @@
               }
               else {
                   this.processing = true;
+                  this.emailSelected = this.selected
                   this.selected.forEach(async (element, index, array) => {
                       if (element.waterActivity === true && this.swimming) {
                           element.tags.push({
@@ -436,11 +480,12 @@
                         vm.store.snackbarSet('red', 'Error', `Something went wrong. Err: ${err}`)
                         }
                   });
-                  this.processing = false;
-                  this.submitted = true;
-                this.store.snackbarSet("green", "Success", "Form Completed!");
-                this.$router.push("/form-complete");
-                
+                  vm.sendEmailNew()
+                  vm.processing = false;
+                  vm.submitted = true;
+                vm.store.snackbarSet("green", "Success", "Form Completed!");
+                vm.$router.push("/");
+                vm.store.formComplete(vm.contactFirstName)
               }
           },
           openInfo(item) {

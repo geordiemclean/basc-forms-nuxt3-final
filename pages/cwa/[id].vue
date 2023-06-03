@@ -399,7 +399,8 @@
                 vm.store.updateDocument('users', vm.id, { cwaComplete: true })
                 .then(() => {
                     vm.store.snackbarSet("green", "Success", "CWA Signed!");
-                    vm.$router.push("/form-complete");
+                    vm.$router.push("/");
+                    vm.store.formComplete(vm.contactFirstName)
                     vm.store.appLoading = false
                     vm.processing = false
                 })
