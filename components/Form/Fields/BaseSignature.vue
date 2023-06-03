@@ -28,12 +28,12 @@
                 <h3 class="text-blue">Sign</h3>
                 <v-card-text class="font-weight-bold headline text-pink" :hidden="hideMessage1">Please sign on the pad below:</v-card-text>
                   <v-card-text >
-                      <!-- <VueSignaturePad id="signature" :options="{onBegin: () => {$refs.signaturePad.resizeCanvas()}}" :class="signatureClass" width="330px" height="150px" ref="signaturePad" />
+                      <VueSignaturePad id="signature" :options="{onBegin: () => {$refs.signaturePad.resizeCanvas()}}" :class="signatureClass" width="330px" height="150px" ref="signaturePad" />
                       <div>
                         <v-btn class="text-right" @click="clear">Clear</v-btn>
                         <v-btn class="text-right" @click="undo">Undo</v-btn>
                         
-                      </div> -->
+                      </div>
                     </v-card-text>
                   <v-card-text class="font-weight-bold headline text-pink" :hidden="hideMessage">Please click save after creating your signature</v-card-text>
                 </v-col>
@@ -55,11 +55,10 @@
 </template>
 
 <script>
-// import { getStorage, ref, getDownloadURL, uploadString } from "firebase/storage"
-// import { VueSignaturePad } from 'vue-signature-pad';
+import { VueSignaturePad } from 'vue-signature-pad';
 
 export default {
-  // components: { VueSignaturePad },
+  components: { VueSignaturePad },
   props: ['display', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'signatureType'],
     data() {
         return {

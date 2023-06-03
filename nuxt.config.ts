@@ -9,6 +9,9 @@ export default defineNuxtConfig({
       noExternal: ['vuetify'] 
     }
   },
+  plugins: [
+    '@/plugins/vue-signature-pad',
+  ],
   modules: [
     '@pinia/nuxt',
     async (options, nuxt) => {
