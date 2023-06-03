@@ -55,10 +55,10 @@
 </template>
 
 <script>
-import { VueSignaturePad } from 'vue-signature-pad';
+// import { VueSignaturePad } from 'vue-signature-pad';
 
 export default {
-  components: { VueSignaturePad },
+  // components: { VueSignaturePad },
   props: ['display', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'signatureType'],
     data() {
         return {
