@@ -38,13 +38,13 @@ export default {
 
         now () {
           this.model = format(new Date(), "HH:mm")
-           this.$emit('updateField', this.fieldId, this.model, this.childIndex, null)
+                this.$emit('updateField', this.model, this.childIndex)
         },
         changeUpdate() {
             console.log(this.model)
             if (this.updateOnChange === true && this.model !== this.importModel)
             {
-             this.$emit('updateField', this.fieldId, this.model, this.childIndex, null)
+                this.$emit('updateField', this.model, this.childIndex)
             }
         },
     },

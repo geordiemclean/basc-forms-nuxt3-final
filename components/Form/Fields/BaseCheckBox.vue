@@ -20,7 +20,7 @@
     function  changeUpdate() {
             if (updateOnChange === true)
             {
-               emit('updateField', fieldId, model, childIndex, null)
+               emit('updateField',  model, childIndex)
             }
         }
     onMounted(() => {

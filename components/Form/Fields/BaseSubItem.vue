@@ -50,7 +50,7 @@ export default {
     changeUpdate() {
             if (this.updateOnChange === true)
             {
-                this.$emit('updateField', this.fieldId, this.model, this.childIndex, null)
+                this.$emit('updateField', this.model, this.childIndex)
             }
         },
         revealSubItems() {
@@ -67,7 +67,7 @@ export default {
         },
         clear() {
             this.model = ''
-            this.$emit('updateField', this.fieldId, this.model, this.childIndex, null)
+                this.$emit('updateField', this.model, this.childIndex)
         
         }
     },

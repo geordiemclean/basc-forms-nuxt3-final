@@ -4,7 +4,7 @@
          
         <h4 v-for="(file, fileIndex) in childItem.model" :key="fileIndex + 123423532" class="font-weight-bold black--text">File Uploaded <v-icon small color="green">mdi-check</v-icon>
          <a  target="_blank"  :href="file.url">{{file.name}}</a>
-         <v-icon  right color="red" @click="childItem.model.splice(fileIndex, 1), $emit('updateField', childItem.key, childItem.model, childIndex, null)">mdi-close-circle</v-icon>
+         <v-icon  right color="red" @click="childItem.model.splice(fileIndex, 1), $emit('updateField', childItem.model, childIndex)">mdi-close-circle</v-icon>
        </h4>
          <!-- <v-icon large color="purple">mdi-file</v-icon> -->
          <!-- :href="childItem.model" target="_blank" -->

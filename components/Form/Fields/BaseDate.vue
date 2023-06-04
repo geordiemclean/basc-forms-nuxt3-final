@@ -40,7 +40,7 @@ export default {
             if (this.updateOnChange === true)
             {
                 let date = this.model.split('-').reverse('').join('/')
-                this.$emit('updateField', this.fieldId, date, this.childIndex, null)
+                this.$emit('updateField', date, this.childIndex)
             }
         },
         isValidDateFormat(dateString) {

@@ -461,9 +461,8 @@
             const element = document.getElementById('parentScroll');
             element.scrollTop = element.scrollHeight;
         },
-        updateField(key, value, childIndex, snackbar) {
+        updateField(value, childIndex) {
               var vm = this
-              console.log(key, snackbar)
               vm.formFields[childIndex].model = value
           },
           sendEmail () {
