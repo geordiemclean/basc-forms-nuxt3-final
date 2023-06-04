@@ -22,47 +22,53 @@
       <v-card  v-if="!store.appLoading"  max-width="900" class="mx-auto mt-5" >
         <v-card-text >
           <h3    class="mb-7  text-purple  font-weight-bold">Child's Details</h3>
-  
-          <h3 class="  purple--text font-weight-bold">
-            Child's First Name
+          <div v-for="(child, index) in children" :key="index + 2313">
+            <h3 class="text-purple">Child {{index + 1}} 
+               <v-btn size="x-small" flat v-if="index !== 0" color="pink" class="font-weight-bold" @click="children.splice(index, 1)" prepend-icon="mdi-delete">Remove Child</v-btn> </h3>
+         
+          <v-row class="mt-2">
+           
+            <v-col cols="4">
+          <h3 class="  text-black font-weight-bold">
+            First Name
           </h3>
           <v-text-field
           density="compact"
             variant="outlined"
-            label="Child First Name"
-            v-model="firstName"
+            label="First Name"
+            v-model="child.firstName"
           />
-  
-        
-          <p class="  purple--text font-weight-bold">
-            Child's Last Name
+        </v-col>
+        <v-col cols="4">
+          <p class="  text-black font-weight-bold">
+            Last Name
           </p>
           <v-text-field
           density="compact"
             variant="outlined"
             
-            label="Child Last Name"
-            v-model="lastName"
+            label="Last Name"
+            v-model="child.lastName"
           />
-       
-          <p class="  purple--text font-weight-bold">
-            Child's Year Group
+        </v-col>
+        <v-col cols="4">
+          <p class="text-black font-weight-bold">
+            Year Group
           </p>
-          <v-select
-          v-if="id === 'Junior'"
-          density="compact"
-            :items="juniorYears"
-            variant="outlined"
-            label="Childs Year Group"
-            v-model="yearGroup"
-          />
            <v-select
-          v-if="id === 'Senior'"
-            :items="seniorYears"
+          density="compact"
+            :items="years"
             variant="outlined"
-            label="Childs Year Group"
-            v-model="yearGroup"
+            label="Year Group"
+            v-model="child.yearGroup"
           />
+        </v-col>
+      </v-row>
+     
+    </div>
+    <div class="text-center"> 
+      <v-btn color="blue" class="font-weight-bold" @click="children.push({firstName: '', lastName: '', yearGroup: '', swimming: ''})" prepend-icon="mdi-plus-circle">Add Another Child</v-btn>
+    </div>
           </v-card-text>
       </v-card>
             
@@ -72,7 +78,8 @@
           <v-row   >
             <v-col v-for="(item, i) in mergeArrays"  :key="i" cols="12" md="4">
               <v-card>
-                    <v-card-text class="font-weight-bold body-1 blue--text  text-center">{{item.title}} {{item.dayOfExcursion}} - {{item.dateOfExcursion}} <v-icon large color="blue" @click="openInfo(item)" >mdi-information</v-icon> <span></span></v-card-text>
+                <v-card-title class="font-weight-bold  text-blue  text-center">{{item.title}} </v-card-title>
+                    <v-card-text class="font-weight-bold text-black text-center"> {{item.excursionDetails.dayOfExcursion}} - {{item.excursionDetails.dateOfExcursion}} <v-icon large color="blue" @click="openInfo(item)" >mdi-information</v-icon> <span></span></v-card-text>
                   
                     
                   
@@ -86,11 +93,13 @@
                     value="Yes"
                     @click="authoriseAndCheck(item)"
                   ></v-radio>
-                <a v-if="item.liability === true && item.liabilityLink !== ''" class="ml-5 font-weight-bold" target="_blank" :href="item.liabilityLink">Click here to complete liability form.</a>
+                <a v-if="item.excursionDetails.liability === true && item.excursionDetails.liabilityLink !== ''" class="ml-5 font-weight-bold" target="_blank" :href="item.excursionDetails.liabilityLink">Click here to complete liability form.</a>
                 </v-radio-group>
-                <h5 v-if="item.waterActivity === true" class="mt-n3 mb-n5 blue--text font-weight-bold">Swimming Ability?</h5>
-                <v-radio-group v-if="item.waterActivity === true"  row  v-model="swimming">
-                  <v-radio label="Non-Swimmer" value="Non-Swimmer"></v-radio>
+                <h5 v-if="item.excursionDetails.waterActivity === true" class="mt-n3 text-blue font-weight-bold">Swimming Ability?</h5>
+                <div v-for="(child, childIndex) in children" :key="childIndex + 43" v-if="item.excursionDetails.waterActivity === true">
+                  <h3>{{child.firstName}}</h3>
+                <v-radio-group   :inline="true"  v-model="child.swimming">
+                  <v-radio density="compact" label="Non-Swimmer" value="Non-Swimmer"></v-radio>
                   <v-radio
                     label="Beginner Swimmer"
                     value="Beginner Swimmer"
@@ -100,6 +109,8 @@
                     value="Confident Swimmer"
                   ></v-radio>
                 </v-radio-group>
+
+              </div>
                 </v-col>
               </v-row>
               </v-card>
@@ -187,8 +198,8 @@
       </v-card-title>
       <v-card-text >
          <v-card-text
-                class="mt-n5 text-center headline font-weight-bold blue--text"
-                >{{ currentItem.title }} -<span class="ml-3 black--text"
+                class="mt-n5 text-center headline font-weight-bold text-blue"
+                >{{ currentItem.title }} -<span class="ml-3 text-black"
                   >{{ currentItem.dayOfExcursion }} {{ currentItem.dateOfExcursion }}
                 </span></v-card-text
               >
@@ -272,6 +283,12 @@
       },
       data() {
           return {
+            children: [{
+              firstName: "",
+              lastName: "",
+              yearGroup: "",
+              swimming: ""
+            }],
             submitted: false,
               test: "",
               // v-linear-progress
@@ -333,6 +350,15 @@
        this.fetchData()
       },
       computed: {
+        years: function () {
+          if(this.id === 'Senior')
+          {
+            return this.seniorYears
+          }
+          else {
+            return this.juniorYears
+          }
+        },
           filter: function () {
               this.sortBy("dateOfExcursionReversed");
               var formType = this.id;
@@ -396,10 +422,10 @@
             var vm = this
             let html = `
            <span style="${this.titleStyle}"> Excursion Authorisation Form</span>
-              <tr>
+           ${vm.children.map(item => ` <tr>
                 <td style="${this.columnOneStyle}" >Child </td>
-                <td style="${this.columnTwoStyle}">${vm.firstName} ${vm.lastName} (${vm.yearGroup})</td> 
-                </tr>
+                <td style="${this.columnTwoStyle}">${item.firstName} ${item.lastName} (${item.yearGroup})</td> 
+                </tr>`).join('')}
                     ${vm.emailSelected.map(item => `
                       <tr><td style="${this.columnOneStyle}" >Excursion</td><td style="${this.columnTwoStyle}">${item.title}</td></tr>`).join('')}
             <tr>
@@ -440,38 +466,43 @@
           submitForm() {
             var vm = this
               //  var childId = `${this.lastName}${this.firstName}${this.yearGroup}`;
-              if (this.contactFirstName === "") {
-                  this.store.snackbarSet("red", "Error", "Please add Parent / Guardians First Name!");
+              if (vm.contactFirstName === "") {
+                  vm.store.snackbarSet("red", "Error", "Please add Parent / Guardians First Name!");
               }
-              else if (this.contactLastName === "") {
-                  this.store.snackbarSet("red", "Error", "Please add Parent / Guardians Last Name!");
+              else if (vm.contactLastName === "") {
+                  vm.store.snackbarSet("red", "Error", "Please add Parent / Guardians Last Name!");
               }
-              else if (this.contactSignature === "" ||
-                  this.contactSignature === undefined ||
-                  this.contactSignature === null) {
-                  this.store.snackbarSet("red", "Error", "Please select save on the signature pad!");
-                  this.saveColour = "red";
+              else if (vm.contactSignature === "" ||
+                  vm.contactSignature === undefined ||
+                  vm.contactSignature === null) {
+                  vm.store.snackbarSet("red", "Error", "Please select save on the signature pad!");
+                  vm.saveColour = "red";
               }
               else {
-                  this.processing = true;
-                  this.emailSelected = this.selected
-                  this.selected.forEach(async (element, index, array) => {
-                      if (element.waterActivity === true && this.swimming) {
+                console.log('start')
+                  vm.processing = true;
+                  vm.emailSelected = vm.selected
+
+                vm.children.forEach((child) => {
+               
+                  vm.selected.forEach(async (element, index, array) => {
+                    
+                      if (element.excursionDetails.waterActivity === true) {
                           element.tags.push({
-                              value: this.swimming,
+                              value: child.swimming,
                               color: "green",
                           });
                       }
                       // element.childId = childId
                       element.excursionDetails = "";
-                      element.firstName = this.firstName;
-                      element.lastName = this.lastName;
-                      element.yearGroup = this.yearGroup;
+                      element.firstName = child.firstName;
+                      element.lastName = child.lastName;
+                      element.yearGroup = child.yearGroup;
                       element.contactFirstName = this.contactFirstName;
                       element.contactLastName = this.contactLastName;
                       element.contactSignature = this.contactSignature;
                       try {
-                   
+                       
                       await vm.store.addSubDocument("vacExcursions", element.excursionId, "forms", array[index])
      
                         }
@@ -480,6 +511,8 @@
                         vm.store.snackbarSet('red', 'Error', `Something went wrong. Err: ${err}`)
                         }
                   });
+                })
+         
                   vm.sendEmailNew()
                   vm.processing = false;
                   vm.submitted = true;
@@ -508,25 +541,45 @@
                     }
           },
           submit() {
-              if (this.firstName === "") {
-                  this.store.snackbarSet("red", "Error", "Please add Childs First Name!");
-              }
-              else if (this.lastName === "") {
-                  this.store.snackbarSet("red", "Error", "Please add Childs Last Name!");
-              }
-              else if (this.yearGroup === "") {
-                  this.store.snackbarSet("red", "Error", "Please add Childs Year Group!");
-              }
-              else {
-                  this.nextStep2();
-              }
+              var vm = this
+              let counter = 0
+              vm.children.forEach((child) => {
+                counter
+                  if (child.firstName === "") {
+                      this.store.snackbarSet("red", "Error", "Please add Childs First Name!");
+                      counter ++
+                  }
+                  else if (child.lastName === "") {
+                      this.store.snackbarSet("red", "Error", `Please add Childs Last Name: ${child.firstName}!`);
+                      counter ++
+                  }
+                  else if (child.yearGroup === "") {
+                      this.store.snackbarSet("red", "Error", `Please add Childs Year Group: ${child.firstName}`);
+                      counter ++
+                  }
+                  else if (child.swimming === "" && vm.waterCheck === true) {
+                      this.store.snackbarSet("red", "Error", `Please add Childs Swimming Ability: ${child.firstName}`);
+                      counter ++
+                  }
+              })
+              if (counter === 0)
+             { this.nextStep2();}
+              // if (this.firstName === "") {
+              //     this.store.snackbarSet("red", "Error", "Please add Childs First Name!");
+              // }
+              // else if (this.lastName === "") {
+              //     this.store.snackbarSet("red", "Error", "Please add Childs Last Name!");
+              // }
+              // else if (this.yearGroup === "") {
+              //     this.store.snackbarSet("red", "Error", "Please add Childs Year Group!");
+              // }
+              // else {
+              //     this.nextStep2();
+              // }
           },
           nextStep2() {
               if (this.authorised === false) {
                   this.store.snackbarSet("pink", "Error", "Please authorise atleast 1 excursion!");
-              }
-              else if (this.waterCheck === true && this.swimming === "") {
-                  this.store.snackbarSet("pink", "Error", "Please add swimming ability!");
               }
               else {
                   this.submitForm();
@@ -534,7 +587,7 @@
           },
           authoriseAndCheck(item) {
               this.authorised = true;
-              if (item.waterActivity === true) {
+              if (item.excursionDetails.waterActivity === true) {
                   this.waterCheck = true;
               }
               this.selected.push(item);
