@@ -1,7 +1,7 @@
 <template>
     <v-checkbox 
-    :label="label" 
-    :color="colorModel"
+    :label="childItem.label" 
+    :color="childItem.color"
     v-model="model" 
     :rules="rules"
     class="font-weight-bold text-black"
@@ -12,11 +12,10 @@
 <script setup>
         import { ref, onMounted } from 'vue'
         const emit = defineEmits(['updateField'])
-    const { type, dataType, label, placeHolder, hint, required, restrictLength, maxLength, minLength, color, updateOnChange, fieldId, importValue, importModel, childIndex, childItem  } = defineProps(['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'])
+    const {  updateOnChange, importValue, importModel, childIndex, childItem  } = defineProps(['updateOnChange','importValue', 'importModel', 'childIndex', 'childItem'])
 
     const model = ref(false)
     const rules = ref([])
-    const colorModel = ref('primary')
     function  changeUpdate() {
             if (updateOnChange === true)
             {
@@ -24,16 +23,16 @@
             }
         }
     onMounted(() => {
-        if (color)
+        if (!childItem.color)
         {
-            colorModel.value = color
+            childItem.color = 'primary'
         }
         if (importValue === true) 
         {
             
             model.value = importModel
         }
-        if (required === true) 
+        if (childItem.required === true) 
         {
             rules.value.push(v => !!v || 'Field is required')
         }

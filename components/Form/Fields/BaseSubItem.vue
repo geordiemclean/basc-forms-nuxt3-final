@@ -3,28 +3,28 @@
     @change="changeUpdate"
     v-model="model" 
     :rules="rules"
-    :required="required"
+    :required="childItem.required"
     class="font-weight-bold" 
    row
-    :multiple="multiple"
+    :multiple="childItem.multiple"
      >
      <v-radio 
      @click="revealSubItems" 
      label="Yes"
      :value="true"
-     :color="color"
+     :color="childItem.color"
      />
      <v-radio 
      @click="hideSubItems" 
      label="No"
      :value="false"
-     :color="color"
+     :color="childItem.color"
      />
      </v-radio-group>
 </template>
 <script>
 export default {
-    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'row', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: ['updateOnChange','importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',

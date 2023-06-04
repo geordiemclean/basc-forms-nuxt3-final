@@ -1,35 +1,16 @@
 <template>
-    <!-- <v-select
-    :label="label" 
-    :placeholder="placeHolder" 
-    :hint="hint" 
-    clearable 
-    :prepend-icon="prependIcon"
-    v-model="model" 
-    :rules="rules"
-    :color="color"
-    item-value="value"
-    item-title="value"
-    :items="items"
-    :counter="restrictLength"
-    :maxlength="maxLength"
-    flat 
-    variant="outlined"
-    rounded
-    @change="changeUpdate"
-     /> -->
      <v-select
-    :label="label" 
-    :placeholder="placeHolder" 
-    :hint="hint" 
+    :label="childItem.label" 
+    :placeholder="childItem.placeHolder" 
+    :hint="childItem.hint" 
     clearable 
     :prepend-icon="prependIcon"
     v-model="model" 
     :rules="rules"
-    :color="color"
+    :color="childItem.color"
     :items="mappedItems"
-    :counter="restrictLength"
-    :maxlength="maxLength"
+    :counter="childItem.restrictLength"
+    :maxlength="childItem.maxLength"
     flat 
     variant="outlined"
     rounded
@@ -39,7 +20,7 @@
 </template>
 <script>
 export default {
-    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: ['updateOnChange','importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',
@@ -57,7 +38,7 @@ export default {
     },
     computed: {
         mappedItems() {
-            return this.items.map(item => {
+            return this.childItem.items.map(item => {
                 return item.value
             })
         }
@@ -68,7 +49,7 @@ export default {
             
             this.model = this.importModel
         }
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
         }

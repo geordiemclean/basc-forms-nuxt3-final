@@ -1,7 +1,7 @@
 <template>
     <v-table class="mt-3" >
         <tbody>
-         <tr v-for="(row, i) in tableRows" :key="i+'tableRowKey'">
+         <tr v-for="(row, i) in childItem.tableRows" :key="i+'tableRowKey'">
          <td class="black--text body-1 font-weight-bold">
            {{row.title}}
          </td>
@@ -16,7 +16,7 @@
  <script>
 
  export default {
-    props: ['tableRows', 'childItem'],
+    props: ['childItem'],
     
  }
  </script>

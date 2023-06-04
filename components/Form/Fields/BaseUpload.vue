@@ -36,13 +36,13 @@
                 />
                 <v-file-input
                 v-model="files"
-                :multiple="multiple"
-                :label="label"
+                :multiple="childItem.multiple"
+                :label="childItem.label"
                 v-if="!processing"  
-                :name='fileKey' 
-                :id='fileKey'
+                :name='childItem.fileKey' 
+                :id='childItem.fileKey'
                 show-size
-                :color="color"
+                :color="childItem.color"
                 counter
                 placeholder="Select your files"
                 prepend-icon="mdi-paperclip"
@@ -59,7 +59,7 @@
 // import { format } from 'date-fns';
 
 export default {
-    props: [ 'multiple', 'fileKey', 'label', 'color', 'updateOnChange', 'fieldId', 'childIndex', 'importValue', 'importModel', 'childItem'],
+    props: [ 'updateOnChange', 'childIndex', 'importValue', 'importModel', 'childItem'],
     data() {
         return {
             processing: false,

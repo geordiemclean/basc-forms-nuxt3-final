@@ -62,7 +62,7 @@
 
 export default {
   // components: { VueSignaturePad },
-  props: ['display', 'childDataLoaded', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'signatureType', 'childItem'],
+  props: ['display', 'childDataLoaded', 'updateOnChange',  'importValue', 'importModel', 'childIndex', 'signatureType', 'childItem'],
     data() {
         return {
               // signature
@@ -130,45 +130,7 @@ export default {
          console.log(err)
          vm.processing = false
           }
-      
-      // this.processing = true
-      // const filePath = `signatures/${new Date()}`
-      //       const storage = getStorage()
-      //        const metadata = {
-      //         contentType: 'image/jpeg',
-      //       }
-      //       const storageRef = ref(storage, filePath, metadata)
-      //     await uploadString(storageRef, data, 'data_url').then((snapshot) => {
-         
-      //        getDownloadURL(snapshot.ref).then((downloadURL) => {
-      //           this.photos.push(downloadURL)
-       
-      //           vm.signature = downloadURL
-      //           vm.processing = false
-      //          vm.defaultFields[vm.currentIndex].model = vm.signature
-     
-      //      this.$emit('updateField', vm.fieldId, downloadURL, null)
-      //       this.$emit('updateArray', vm.childIndex, downloadURL, vm.signatureType)
-            
-      //         vm.$emit('emitSignature', downloadURL)
-      //           vm.saveItem(vm.currentItem, vm.currentIndex)
-      //     })
-      //         })
-      // .then(()=> {
-      // this.signatureClass = 'green lighten-4'
-      // this.hideMessage = true
-      // vm.formFields[vm.currentParentIndex].items[vm.currentChildIndex].model = vm.signature
-      // vm.updateFormFields(vm.currentParentIndex, vm.currentChildIndex)
-      // vm.dialogSignature = false
-      // vm.signature = ''
-      // vm.signatureClass = 'blue lighten-5'
-      // vm.hideMessage = true
-      // vm.saveColour = 'green'
-      // vm.clear()
-
-      // })
           }
-      
     },
      clear() {
       this.$refs.signaturePad.clearSignature()

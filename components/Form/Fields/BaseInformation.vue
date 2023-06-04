@@ -1,6 +1,6 @@
  <template>
     <div>
-    <v-row  v-for="(row, i) in tableRows" :key="i+45566">
+    <v-row  v-for="(row, i) in childItem.tableRows" :key="i+45566">
         <v-col cols="12">
           <h1 class="font-weight-bold blue--text" v-if="row.type === 'Heading'">{{row.info}}</h1>
           <p class="font-weight-bold black--text text-h6" v-if="row.type === 'Paragraph'">{{row.info}}</p>
@@ -12,7 +12,7 @@
  <script>
 
  export default {
-    props: ['tableRows', 'childItem'],
+    props: ['childItem'],
     
  }
  </script>

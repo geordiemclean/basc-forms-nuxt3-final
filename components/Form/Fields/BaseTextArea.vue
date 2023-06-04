@@ -2,22 +2,22 @@
     <v-textarea 
     rows="1"
     auto-grow
-    :label="label" 
-    :placeholder="placeHolder" 
-    :hint="hint" 
-    :color="color"
+    :label="childItem.label" 
+    :placeholder="childItem.placeHolder" 
+    :hint="childItem.hint" 
+    :color="childItem.color"
     @change="changeUpdate"  
     v-model="model" 
     :rules="rules"
     density="compact"
-    :counter="restrictLength"
-    :maxlength="maxLength"
+    :counter="childItem.restrictLength"
+    :maxlength="childItem.maxLength"
     variant="outlined"
      />
 </template>
 <script>
 export default {
-    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: ['updateOnChange', 'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',
@@ -38,15 +38,15 @@ export default {
             
             this.model = this.importModel
         }
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
         }
-        if (this.restrictLength === true && this.maxLength !== '') 
+        if (this.childItem.restrictLength === true && this.childItem.maxLength !== '') 
         {
             this.rules.push(value => value.length <= this.maxLength || `Max ${this.maxLength} characters`)
         }
-        if (this.restrictLength === true && this.minLength !== '') 
+        if (this.childItem.restrictLength === true && this.childItem.minLength !== '') 
         {
             this.rules.push(v => v.length >= this.minLength || `Min ${this.minLength} characters`)
         }

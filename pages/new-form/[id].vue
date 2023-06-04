@@ -43,8 +43,6 @@
              <BaseSignature 
              display="icon"
              :updateOnChange="true"
-             :fieldId="childItem.key"
-             
              :import="false"
              @updateArray="updateArray"
              :childIndex="childIndex"
@@ -52,13 +50,14 @@
              v-if="childItem.type === 'signature' && !store.appLoading"                 
              />
            </div>
-          <BaseTitle :title="childItem.title" :textWeight="childItem.textWeight" :textSize="childItem.textSize" :textColor="childItem.textColor" 
-          v-if="childItem.type === 'title' && !store.appLoading"   
-          />
+
+          <BaseTitle :childItem="childItem"   v-if="childItem.type === 'title' && !store.appLoading"    />
+          
           <component 
             :is="getComponentForField(childItem)" 
             v-if="!store.appLoading"
             :childItem="childItem"
+            :importModel="childItem.model"
             :childIndex="childIndex"
             :updateOnChange="true"
             @updateArray="updateArray"
@@ -68,27 +67,12 @@
             @revealSubItems="revealSubItems"
             @hideSubItems="hideSubItems"
             @updateField="updateField"
-            :type="childItem.type" 
-            :dataType="childItem.dataType" 
-            :label="childItem.label"
-            :placeHolder="childItem.placeHolder"
-            :hint="childItem.hint" 
-            :items="childItem.items"
-            :required="childItem.required"
-            :color="childItem.color"
-            :fieldId="childItem.key"
-            :row="childItem.row"
-            :importModel="childItem.model"
-            :tableRows="childItem.tableRows"
-            :multiple="childItem.multiple"
-            :fileKey="childItem.fileKey"
             display="text-field"
            ></component>
             
            <BaseSignature 
            display="text-field"
            :updateOnChange="true"
-           :fieldId="childItem.key"
            @updateField="updateField"
            :childIndex="childIndex"
            @updateArray="updateArray"
@@ -99,9 +83,12 @@
            <img 
            v-if="childItem.type === 'signature' && !store.appLoading && childItem.model"    
            height="100" :src="childItem.model"  alt="" /> 
+           
+
                        </v-col>
                </v-card>
      </div>
+
   
    <v-card id="parentScroll"  v-if="parentRequired === true "  max-width="900" class="mx-auto mt-5">
            <v-card-title class="font-weight-bold text-purple">Parent / Guardian</v-card-title>
@@ -393,8 +380,10 @@
           return 'BaseRadio';
         case 'multiple-choice':
           return 'BaseRadio';
-        // case 'signature':
-        //   return 'BaseSignature';
+        case 'mobile':
+          return 'BaseTextField';
+          case 'email':
+          return 'BaseTextField';
         case 'sub-item':
           return 'BaseSubItem';
         case 'switch':

@@ -1,32 +1,18 @@
 <template>
     <div>
-        <input @change="changeUpdate" v-model="model" type="date">
-    <!-- <vue-date-picker
-    v-model:value="model" 
-    type="date"
-    lang="en"
-    :color="color"
-    :rules="rules"
-    format="DD/MM/YYYY"
-    valueType="format"
-    @change="changeUpdate"
-    /> -->
+        <input  class="my-2 mx-2 inputClass"  @change="changeUpdate" v-model="model" type="date">
     <v-btn size="x-small" color="blue" class="font-weight-bold ml-1" dark @click="today">Today</v-btn>
 </div>
 </template>
+
 <script>
-//   import DatePicker from 'vue-datepicker-next';
-//   import 'vue-datepicker-next/index.css';
 import { format } from 'date-fns';
 
 export default {
-    props: ['required', 'color', 'autoFill', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
-    // components: {
-    //     DatePicker,
-    // },
+    props: [ 'updateOnChange', 'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
-            model: '',
+            model: '2000-01-01',
             rules: [],
         }
     },
@@ -49,13 +35,9 @@ export default {
             }
     },
     created () {
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
-        }
-        if (this.autoFill === true)
-        {
-          this.model =  format(new Date(), 'dd/MM/yyyy')
         }
         if (this.importValue === true && this.importModel) 
         {
@@ -71,3 +53,13 @@ export default {
     },
 }
 </script>
+
+<style>
+
+.inputClass {
+  padding: 5px;
+  border-radius: 5px;
+  border: 1px solid #ccc;
+  font-size: 1.2rem;
+}
+</style>

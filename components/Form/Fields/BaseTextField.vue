@@ -1,32 +1,31 @@
 <template>
     <v-text-field 
-    :type="dataType"
-    :label="label" 
-    :placeholder="placeHolder" 
-    :hint="hint" 
+    :type="childItem.dataType"
+    :label="childItem.label" 
+    :placeholder="childItem.placeHolder" 
+    :hint="childItem.hint" 
     clearable 
     :prepend-icon="prependIcon"
     @change="changeUpdate"  
     v-model="model"
     :rules="rules"
-    :color="color"
+    :color="childItem.color"
     density="compact"
-    :counter="restrictLength"
-    :maxlength="maxLength"
+    :counter="childItem.restrictLength"
+    :maxlength="childItem.maxLength"
     variant="outlined"
      />
 </template>
 <script>
 export default {
-    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required',  'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: [ 'updateOnChange',  'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',
             rules: [],
             prependIcon: '',
             restrictLength: false,
-            maxLength: '',
-            minLength: '',
+         
         }
     },
     methods: {
@@ -51,21 +50,21 @@ export default {
             
             this.model = this.importModel
         }
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
         }
-        if (this.type === 'email') 
+        if (this.childItem.type === 'email') 
         {
             this.rules.push((v) => /.+@.+\..+/.test(v) || "E-mail must be valid")
             this.prependIcon = 'mdi-email'
           //  this.dataType = 'text'
         }
-        if (this.type === 'mobile') 
+        if (this.childItem.type === 'mobile') 
         {
-            this.maxLength = 10
-            this.minLength = 10
-            this.restrictLength = true
+            this.childItem.maxLength = 10
+            this.childItem.minLength = 10
+            this.childItem.restrictLength = true
          //   this.dataType = 'number'
             this.prependIcon = 'mdi-phone'
         }

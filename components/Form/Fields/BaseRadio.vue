@@ -4,11 +4,11 @@
     @change="changeUpdate"
     v-model="model" 
     :rules="rules"
-    :required="required"
-    :inline="row"
-    :multiple="multiple"
+    :required="childItem.required"
+    :inline="childItem.row"
+    :multiple="childItem.multiple"
      >
-     <v-radio v-for="(item, itemIndex) in items"
+     <v-radio v-for="(item, itemIndex) in childItem.items"
      :key="itemIndex + item.value"
      :label="item.value"
      :value="item.value"
@@ -23,7 +23,7 @@
 </template>
 <script>
 export default {
-    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'row', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: ['updateOnChange',  'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',
@@ -34,16 +34,16 @@ export default {
         }
     },
     created () {
-        if (this.color)
+        if (this.childItem.color)
         {
-            this.colorModel = this.color
+            this.colorModel = this.childItem.color
         }
-        if (this.type === 'multiple-choice')
+        if (this.childItem.type === 'multiple-choice')
         {
             this.model = []
-            this.multiple = true
+           // this.multiple = true
         }
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
         }
@@ -61,7 +61,7 @@ export default {
             }
         },
         clear() {
-            if (this.type === 'multiple-choice')
+            if (this.childItem.type === 'multiple-choice')
         {
             this.model = []
                 this.$emit('updateField', this.model, this.childIndex)

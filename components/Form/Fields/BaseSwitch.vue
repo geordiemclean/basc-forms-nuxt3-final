@@ -1,7 +1,7 @@
 <template>
     <v-switch 
-    :label="label" 
-    :color="color"
+    :label="childItem.label" 
+    :color="childItem.color"
     v-model="model" 
     :rules="rules"
     class="font-weight-bold blacl--text"
@@ -10,7 +10,7 @@
 </template>
 <script>
 export default {
-    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: ['updateOnChange',  'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: false,
@@ -31,7 +31,7 @@ export default {
             this.model = this.importModel
             
         }
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
         }

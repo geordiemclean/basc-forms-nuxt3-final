@@ -1,6 +1,6 @@
 <template>
     <div class="time-input">
-        <input class="my-2 mx-2 inputClass" timeFormat="12" @change="changeUpdate" type="time"   v-model="model">
+        <input class="my-2 mx-2 inputClass" timeFormat="12" @change="changeUpdate" type="time"  v-model="model">
         <v-btn size="x-small" color="blue" class="font-weight-bold ml-1" dark @click="now">Now</v-btn>
       </div>
 </template>
@@ -10,7 +10,7 @@ import { format } from 'date-fns';
 
 
 export default {
-    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'timeFormat', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
+    props: [ 'updateOnChange',  'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '00:00',
@@ -41,7 +41,6 @@ export default {
                 this.$emit('updateField', this.model, this.childIndex)
         },
         changeUpdate() {
-            console.log(this.model)
             if (this.updateOnChange === true && this.model !== this.importModel)
             {
                 this.$emit('updateField', this.model, this.childIndex)
@@ -60,7 +59,7 @@ export default {
                 this.model = this.importModel
             }
         }
-        if (this.required === true) 
+        if (this.childItem.required === true) 
         {
             this.rules.push(v => !!v || 'Field is required')
         }
