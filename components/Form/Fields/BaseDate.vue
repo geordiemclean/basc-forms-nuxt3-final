@@ -20,7 +20,7 @@
 import { format } from 'date-fns';
 
 export default {
-    props: ['required', 'color', 'autoFill', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex'],
+    props: ['required', 'color', 'autoFill', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
     // components: {
     //     DatePicker,
     // },

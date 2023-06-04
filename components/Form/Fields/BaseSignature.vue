@@ -1,4 +1,7 @@
 <template lang="">
+  <!-- <img 
+      v-if="childItem.type === 'signature' && childDataLoaded && childItem.model"    
+      height="100" :src="childItem.model"  alt="">  -->
    <!-- dialog signature update -->
   <v-dialog persistent width="700" v-model="dialogSignature">
 
@@ -11,7 +14,7 @@
          mdi-pencil
         </v-icon>
         <v-text-field  
-        v-if="display === 'text-field'" 
+        v-if="!signature && display !== 'icon' "
         v-bind="props" 
         append-inner-icon="mdi-draw"  
         readonly 
@@ -59,7 +62,7 @@
 
 export default {
   // components: { VueSignaturePad },
-  props: ['display', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'signatureType'],
+  props: ['display', 'childDataLoaded', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'signatureType', 'childItem'],
     data() {
         return {
               // signature
@@ -117,7 +120,7 @@ export default {
               this.hideMessage = true
               vm.clear()
               vm.dialogSignature = false
-              vm.signature = ''
+              //vm.signature = ''
               vm.signatureClass = 'blue lighten-5'
               vm.hideMessage = true
               vm.saveColour = 'green'

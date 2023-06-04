@@ -12,7 +12,7 @@
  <script>
 
  export default {
-    props: ['tableRows'],
+    props: ['tableRows', 'childItem'],
     
  }
  </script>

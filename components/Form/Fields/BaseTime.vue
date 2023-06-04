@@ -10,7 +10,7 @@ import { format } from 'date-fns';
 
 
 export default {
-    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'timeFormat', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex'],
+    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'timeFormat', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '00:00',

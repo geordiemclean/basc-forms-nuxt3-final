@@ -18,7 +18,7 @@
 </template>
 <script>
 export default {
-    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required',  'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex'],
+    props: ['type', 'dataType', 'label', 'placeHolder', 'hint', 'required',  'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',

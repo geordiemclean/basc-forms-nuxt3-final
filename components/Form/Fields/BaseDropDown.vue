@@ -1,5 +1,5 @@
 <template>
-    <v-select
+    <!-- <v-select
     :label="label" 
     :placeholder="placeHolder" 
     :hint="hint" 
@@ -8,7 +8,8 @@
     v-model="model" 
     :rules="rules"
     :color="color"
-    item-text="value"
+    item-value="value"
+    item-title="value"
     :items="items"
     :counter="restrictLength"
     :maxlength="maxLength"
@@ -16,11 +17,29 @@
     variant="outlined"
     rounded
     @change="changeUpdate"
+     /> -->
+     <v-select
+    :label="label" 
+    :placeholder="placeHolder" 
+    :hint="hint" 
+    clearable 
+    :prepend-icon="prependIcon"
+    v-model="model" 
+    :rules="rules"
+    :color="color"
+    :items="mappedItems"
+    :counter="restrictLength"
+    :maxlength="maxLength"
+    flat 
+    variant="outlined"
+    rounded
+    @update:modelValue="changeUpdate"
+  
      />
 </template>
 <script>
 export default {
-    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex'],
+    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',
@@ -35,6 +54,13 @@ export default {
                 this.$emit('updateField', this.fieldId, this.model, this.childIndex, null)
             }
         },
+    },
+    computed: {
+        mappedItems() {
+            return this.items.map(item => {
+                return item.value
+            })
+        }
     },
     created () {
         if (this.importValue === true) 

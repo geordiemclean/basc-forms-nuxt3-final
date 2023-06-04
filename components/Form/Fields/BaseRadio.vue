@@ -23,7 +23,7 @@
 </template>
 <script>
 export default {
-    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'row', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex'],
+    props: ['type', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'items', 'row', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'],
     data() {
         return {
             model: '',

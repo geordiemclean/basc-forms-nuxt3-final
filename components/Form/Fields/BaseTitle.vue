@@ -7,7 +7,7 @@
  <script>
 
  export default {
-    props: ['title', 'textSize', 'textColor', 'textWeight'],
+    props: ['title', 'textSize', 'textColor', 'textWeight', 'childItem'],
     created () {
         this.createClass()
     },

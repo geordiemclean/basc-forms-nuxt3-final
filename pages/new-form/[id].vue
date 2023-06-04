@@ -55,22 +55,50 @@
           <BaseTitle :title="childItem.title" :textWeight="childItem.textWeight" :textSize="childItem.textSize" :textColor="childItem.textColor" 
           v-if="childItem.type === 'title' && !store.appLoading"   
           />
-     
-                <AllFields 
-                v-if="!store.appLoading"
-                :childItem="childItem"
-                :childIndex="childIndex"
-                :updateOnChange="true"
-                @updateArray="updateArray"
-                @updateFiles="updateFiles"
-                :importValue="true"
-                :childDataLoaded="!store.appLoading"
-                @revealSubItems="revealSubItems"
-                @hideSubItems="hideSubItems"
-                @updateField="updateField"
-                />
-  
-  
+          <component 
+            :is="getComponentForField(childItem)" 
+            v-if="!store.appLoading"
+            :childItem="childItem"
+            :childIndex="childIndex"
+            :updateOnChange="true"
+            @updateArray="updateArray"
+            @updateFiles="updateFiles"
+            :importValue="true"
+            :childDataLoaded="!store.appLoading"
+            @revealSubItems="revealSubItems"
+            @hideSubItems="hideSubItems"
+            @updateField="updateField"
+            :type="childItem.type" 
+            :dataType="childItem.dataType" 
+            :label="childItem.label"
+            :placeHolder="childItem.placeHolder"
+            :hint="childItem.hint" 
+            :items="childItem.items"
+            :required="childItem.required"
+            :color="childItem.color"
+            :fieldId="childItem.key"
+            :row="childItem.row"
+            :importModel="childItem.model"
+            :tableRows="childItem.tableRows"
+            :multiple="childItem.multiple"
+            :fileKey="childItem.fileKey"
+            display="text-field"
+           ></component>
+            
+           <BaseSignature 
+           display="text-field"
+           :updateOnChange="true"
+           :fieldId="childItem.key"
+           @updateField="updateField"
+           :childIndex="childIndex"
+           @updateArray="updateArray"
+           :importValue="true"
+           :importModel="childItem.model"
+           v-if="childItem.type === 'signature' && !store.appLoading && (childItem.model === '' || childItem.model === null || childItem.model === undefined)"                 
+           />
+           <img 
+           v-if="childItem.type === 'signature' && !store.appLoading && childItem.model"    
+           height="100" :src="childItem.model"  alt="" /> 
                        </v-col>
                </v-card>
      </div>
@@ -154,12 +182,26 @@
 //   import emailjs from "emailjs-com";
   
   import { format } from 'date-fns';
-    import AllFields from "../../components/Form/AllFields.vue";
-    import BaseSignature from "../../components/Form/Fields/BaseSignature.vue";
+
   
   import { useStore } from '../../stores/Store.js'
-  import BaseTitle from "../../components/Form/Fields/BaseTitle.vue";
   import DialogLeave from "../../components/Helpers/DialogLeave.vue";
+
+  import BaseTitle from "../../components/Form/Fields/BaseTitle.vue";
+
+  import BaseTextField from "@/components/Form/Fields/BaseTextField.vue";
+  import BaseTextArea from "@/components/Form/Fields/BaseTextArea.vue";
+  import BaseDate from "@/components/Form/Fields/BaseDate.vue";
+  import BaseSwitch from "@/components/Form/Fields/BaseSwitch.vue";
+  import BaseDropDown from "@/components/Form/Fields/BaseDropDown.vue";
+  import BaseRadio from "@/components/Form/Fields/BaseRadio.vue";
+  import BaseCheckBox from "@/components/Form/Fields/BaseCheckBox.vue";
+  import BaseTime from "@/components/Form/Fields/BaseTime.vue";
+  import BaseUpload from "@/components/Form/Fields/BaseUpload.vue";
+  import BaseInformation from "@/components/Form/Fields/BaseInformation.vue";
+  import BaseTable from "@/components/Form/Fields/BaseTable.vue";
+  import BaseSignature from "@/components/Form/Fields/BaseSignature.vue";
+  import BaseSubItem from "@/components/Form/Fields/BaseSubItem.vue";
   
   export default {
     setup() {
@@ -171,10 +213,23 @@
           };
       },
       components: {
-     AllFields,
+
      BaseSignature,
       BaseTitle,
-      DialogLeave
+      DialogLeave,
+      BaseTextField,
+      BaseTextArea,
+      BaseDate,
+      BaseSwitch,
+      BaseDropDown,
+      BaseRadio,
+      BaseCheckBox,
+      BaseTime,
+      BaseUpload,
+      BaseInformation,
+      BaseTable,
+      BaseSubItem,
+
   },
       data() {
           return {
@@ -323,6 +378,41 @@
       },
       },
       methods: {
+        getComponentForField(field) {
+      // Return the corresponding component based on the field type
+      switch (field.type) {
+        case 'check-box':
+          return 'BaseCheckBox';
+        case 'date':
+          return 'BaseDate';
+        case 'drop-down':
+          return 'BaseDropDown';
+        case 'information':
+          return 'BaseInformation';
+        case 'single-choice':
+          return 'BaseRadio';
+        case 'multiple-choice':
+          return 'BaseRadio';
+        // case 'signature':
+        //   return 'BaseSignature';
+        case 'sub-item':
+          return 'BaseSubItem';
+        case 'switch':
+          return 'BaseSwitch';
+        case 'table':
+          return 'BaseTable';
+        case 'text-area':
+          return 'BaseTextArea';
+        case 'text-field':
+          return 'BaseTextField';
+        case 'time':
+          return 'BaseTime';
+        case 'upload':
+          return 'BaseUpload';
+        default:
+          return 'div';
+      }
+    },
         async sendEmailNew () {
       // console.log(this.emailFields)
             var vm = this

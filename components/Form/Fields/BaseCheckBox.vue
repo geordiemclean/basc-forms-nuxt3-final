@@ -12,7 +12,7 @@
 <script setup>
         import { ref, onMounted } from 'vue'
         const emit = defineEmits(['updateField'])
-    const { type, dataType, label, placeHolder, hint, required, restrictLength, maxLength, minLength, color, updateOnChange, fieldId, importValue, importModel, childIndex  } = defineProps(['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex'])
+    const { type, dataType, label, placeHolder, hint, required, restrictLength, maxLength, minLength, color, updateOnChange, fieldId, importValue, importModel, childIndex, childItem  } = defineProps(['type', 'dataType', 'label', 'placeHolder', 'hint', 'required', 'restrictLength', 'maxLength', 'minLength', 'color', 'updateOnChange', 'fieldId', 'importValue', 'importModel', 'childIndex', 'childItem'])
 
     const model = ref(false)
     const rules = ref([])

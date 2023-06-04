@@ -1,5 +1,32 @@
 <template lang="">
     <div>
+      <div  v-if="childItem.model !== '' && childItem.model !== null && childItem.model !== undefined && childItem.type === 'upload'"  >
+         
+        <h4 v-for="(file, fileIndex) in childItem.model" :key="fileIndex + 123423532" class="font-weight-bold black--text">File Uploaded <v-icon small color="green">mdi-check</v-icon>
+         <a  target="_blank"  :href="file.url">{{file.name}}</a>
+         <v-icon  right color="red" @click="childItem.model.splice(fileIndex, 1), $emit('updateField', childItem.key, childItem.model, childIndex, null)">mdi-close-circle</v-icon>
+       </h4>
+         <!-- <v-icon large color="purple">mdi-file</v-icon> -->
+         <!-- :href="childItem.model" target="_blank" -->
+       </div>
+      
+       <div  v-if="childItem.model !== '' && childItem.model !== null && childItem.model !== undefined && childItem.type === 'photos'"  >
+      
+         <h4 v-for="(file, fileIndex) in childItem.model" :key="fileIndex + 123423532" class="font-weight-bold black--text">
+           <v-img 
+         
+           :src="file"
+           :lazy-src="file"
+           aspect-ratio="2"
+           contain
+           
+           ></v-img>
+      
+          <a  target="_blank"  :href="file">Download</a>
+        </h4>
+          <!-- <v-icon large color="purple">mdi-file</v-icon> -->
+          <!-- :href="childItem.model" target="_blank" -->
+        </div>
         <div class="mt-5 text-center">
             <v-progress-circular
                   v-if="processing"
@@ -29,10 +56,10 @@
 
 <script>
 // import { getStorage, ref, getDownloadURL, uploadBytesResumable } from "firebase/storage";
-import { format } from 'date-fns';
+// import { format } from 'date-fns';
 
 export default {
-    props: [ 'multiple', 'fileKey', 'label', 'color', 'updateOnChange', 'fieldId', 'childIndex', 'importValue', 'importModel'],
+    props: [ 'multiple', 'fileKey', 'label', 'color', 'updateOnChange', 'fieldId', 'childIndex', 'importValue', 'importModel', 'childItem'],
     data() {
         return {
             processing: false,
