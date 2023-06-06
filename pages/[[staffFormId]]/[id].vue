@@ -84,6 +84,17 @@
            v-if="childItem.type === 'signature' && !store.appLoading && childItem.model"    
            height="100" :src="childItem.model"  alt="" /> 
            
+           <AutoEducator
+           v-if="childItem.type === 'auto-fill-educator' && !store.appLoading"
+           :fieldId="childItem.key"
+           :importValue="true"
+           :importModel="childItem.model"
+           :childIndex="childIndex"
+           :childItem="childItem"
+           :childDataLoaded="!store.appLoading"
+           :multiple="childItem.multiple"
+           :required="childItem.required"
+           />
 
                        </v-col>
                </v-card>
@@ -199,6 +210,8 @@
   import BaseTable from "@/components/Form/Fields/BaseTable.vue";
   import BaseSignature from "@/components/Form/Fields/BaseSignature.vue";
   import BaseSubItem from "@/components/Form/Fields/BaseSubItem.vue";
+
+  import AutoEducator from "@/components/Form/Fields/AutoEducator.vue";
   
   export default {
     setup() {
@@ -226,6 +239,7 @@
       BaseInformation,
       BaseTable,
       BaseSubItem,
+      AutoEducator,
 
   },
       data() {
