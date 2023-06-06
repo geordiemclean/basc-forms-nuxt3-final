@@ -183,6 +183,16 @@ export const useStore = defineStore('store', {
          initialCache: false 
         })
       },
+      async fetchStaff(collectionRef, docRef) {
+        return await useFetch('/api/fetchStaff', {
+          method: 'post',
+          body: {
+            collectionRef: collectionRef,
+            docRef: docRef,
+          },
+         initialCache: false 
+        })
+      },
       async fetchArray(collectionRef, field, condition, value) {
         return await useFetch('/api/fetchArray', {
           method: 'post',

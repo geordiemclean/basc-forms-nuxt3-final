@@ -41,7 +41,7 @@ export default {
         }
         if (this.importValue === true && this.importModel) 
         {
-            if (isValidDateFormat(this.model))
+            if (this.isValidDateFormat(this.importModel))
             {
                 this.model = this.importModel.split('/').reverse('').join('-')
             }

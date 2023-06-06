@@ -145,7 +145,7 @@
           small
         />
        <v-btn
-          v-if="!processing "
+          v-if="!processing && staffFormId === 'new-form'"
           color="primary"
           dark
           size="x-large"
@@ -154,6 +154,16 @@
         >
          <span >Submit</span>
         </v-btn>
+        <v-btn
+      v-if="!processing && staffFormId !== 'new-form'"
+      color="primary"
+      dark
+      size="x-large"
+      class="font-weight-bold"
+      @click="submitParentSign"
+    >
+     <span >Submit</span>
+    </v-btn>
   
     </v-card-text>
   
@@ -194,9 +204,9 @@
     setup() {
       const route = useRoute()
           const store = useStore();
-          const { id } = useRoute().params
+          const { id, staffFormId } = useRoute().params
           return {
-              store, id, route
+              store, id, route, staffFormId
           };
       },
       components: {
@@ -675,10 +685,14 @@
                   vm.formFields.sort(function (a, b) {
                     return vm.order.indexOf(a.id) - vm.order.indexOf(b.id);
                    });
-
+                   if (vm.staffFormId !== 'new-form')
+                    {
+                      vm.fetchFormFields()
+                    }
+                    else {
                     vm.store.appLoading = false
-                
-
+                      
+                  }
                 }
                })
              }
@@ -727,6 +741,93 @@
               vm.store.snackbarSet('red', 'Error', `Something went wrong. Err: ${err}`)
              }
         },
+
+        // parent sign methods
+        async submitParentSign () {
+        var vm = this
+        
+        if (vm.parentRequired === true && (vm.parentFirstName === '' || vm.parentFirstName === null || vm.parentFirstName === undefined))
+          {vm.store.snackbarSet('pink', 'Error', 'Please add Parent / Guardian First Name')}
+          else if (vm.parentRequired === true && (vm.parentLastName === '' || vm.parentLastName === null || vm.parentLastName === undefined))
+          {vm.store.snackbarSet('pink', 'Error', 'Please add Parent / Guardian Last Name')}
+           else if (vm.parentRequired === true && (vm.parentSignature === '' || vm.parentSignature === null || vm.parentSignature === undefined))
+          {vm.store.snackbarSet('pink', 'Error', 'Please add Parent / Guardian Signature')}
+          else {
+            vm.processing = true
+            const info = {
+              parentFirstName: vm.parentFirstName,
+           parentLastName: vm.parentLastName,
+        //   childRequired: vm.childRequired,
+           parentDateSigned: format(new Date(), 'dd/MM/yyyy'),
+            parentTimeSigned: format(new Date(), 'HH:mm'),
+            parentSignature: vm.parentSignature,
+            }
+            vm.store.updateDocument('forms', this.staffFormId, info).then(() => {
+              vm.store.snackbarSet('green', 'Success', 'Form Submitted')
+                vm.submitted = true
+                vm.processing = false
+                vm.$router.push('/')
+                vm.store.formComplete(vm.parentFirstName)
+            })
+          }
+      },
+          // PArent Sign MEthods
+          async fetchFormFields () {
+      var vm = this
+
+      try {
+              this.store.fetchData("forms", vm.staffFormId).then((res) => {
+
+                // if visitor does not exist - sign up
+                if (res.data.value === null) {
+                  vm.appLoading = false;
+                  vm.store.snackbarSet('red', 'Error', `An Error occured: ${res.data.err}`)
+                  vm.store.appLoading = false
+                }
+                else  {
+                  vm.formSaved = res.data.value.formSaved
+           vm.stampDate = res.data.value.stampDate
+           vm.stampTime = res.data.value.stampTime
+             // children
+             vm.firstName = res.data.value.firstName
+                vm.lastName = res.data.value.lastName
+                 // parent
+                vm.parentFirstName = res.data.value.parentFirstName;
+              vm.parentLastName = res.data.value.parentLastName;
+                vm.parentSignature = res.data.value.parentSignature;
+                vm.parentDateSigned = res.data.value.parentDateSigned;
+                vm.parentTimeSigned = res.data.value.parentTimeSigned;
+
+                Object.keys(res.data.value).forEach(function(key) {
+           // console.log(key, index)
+           // console.log(docSnap2.data().[key])
+            vm.formFields.forEach((childItem, childIndex) => {
+                  if (key === childItem.key)
+                  {
+                    vm.formFields[childIndex].model = res.data.value[key]
+                  }
+                  if (childItem.type === 'sub-item' && childItem.model === true)
+                  {
+                   // vm.revealSubItems(childItem)
+                  }
+                 //   console.log(vm.formFields[childIndex].model)
+                    
+                })
+            })
+
+            vm.store.appLoading = false
+                }
+              })
+            }
+      catch(err)
+      {
+        vm.store.appLoading = false
+        vm.store.snackbarSet('red', 'Error', `Something went wrong. Err: ${err}`)
+      }
+
+
+         
+          },
      
      
     },
