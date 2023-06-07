@@ -7,12 +7,13 @@
       </v-toolbar>
   
   <v-card  v-if="!store.appLoading"  max-width="900" class="mx-auto mt-5" style="border-top: 10px solid blue !important">
-    <v-card-text class="font-weight-bold text--black">
-      <h1>{{formName}}</h1>
-      </v-card-text>
+    <div class="text-center">
+     <h1>{{formName}}</h1> 
+     
     <v-card-text v-if="formDescription">
       {{formDescription}}
     </v-card-text>
+  </div>
   </v-card>
    
     

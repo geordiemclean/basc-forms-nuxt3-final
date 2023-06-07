@@ -4,14 +4,14 @@
       <v-toolbar density="compact"  class="no-print " color="transparent" >
         <v-icon class="mr-2" color="purple"  @click="$router.push('/')">mdi-home</v-icon>
    </v-toolbar>
-      <v-card  v-if="!store.appLoading"  max-width="900" class="mx-auto mt-5" style="border-top: 10px solid blue !important">
-        <v-card-text class="font-weight-bold text--black">
+      <v-card flat v-if="!store.appLoading"  max-width="900" class="mx-auto mt-5" style="border-top: 10px solid blue !important">
+        <div class="text-center">
           <h1> {{ id }} Vacation Excursion Form</h1>
-          </v-card-text>
+          </div>
   
       </v-card>
   
-      <v-card  v-if="!store.appLoading"  max-width="900" class="mx-auto mt-5" >
+      <v-card flat  v-if="!store.appLoading"  max-width="900" class="mx-auto mt-5" >
         <v-card-text>
         <v-card-text >
           <div  v-html="vacInformation"></div>

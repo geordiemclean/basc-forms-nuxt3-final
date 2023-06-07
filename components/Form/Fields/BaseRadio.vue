@@ -6,7 +6,7 @@
     :rules="rules"
     :required="childItem.required"
     :inline="childItem.row"
-    :multiple="childItem.multiple"
+    :multiple="multiple"
      >
      <v-radio v-for="(item, itemIndex) in childItem.items"
      :key="itemIndex + item.value"
@@ -41,7 +41,7 @@ export default {
         if (this.childItem.type === 'multiple-choice')
         {
             this.model = []
-           // this.multiple = true
+            this.multiple = true
         }
         if (this.childItem.required === true) 
         {
