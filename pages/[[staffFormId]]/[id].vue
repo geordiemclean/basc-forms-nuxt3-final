@@ -348,9 +348,9 @@
         emailFields() {
         const finalFields = this.formFields.filter(item => item.active !== false && item.sub !== true && (item.model !== '' && item.model !== null && item.model !== undefined || item.type === 'title') )
         finalFields.forEach((item, index) => {
-         if (item.model === true)
+         if (item.type === 'check-box' || item.type === 'switch')
           {
-            finalFields[index].html = `<tr><td style="${this.columnOneSyle}" class="${this.columnOneClass}" >${item.title}</td><td style="${this.columnTwoSyle}" >Yes</td></tr>`
+            finalFields[index].html = `<tr><td style="${this.columnOneSyle}" class="${this.columnOneClass}" >${item.title}</td><td style="${this.columnTwoSyle}" >${item.label}</td></tr>`
           }
          else if (item.model === false)
           {
