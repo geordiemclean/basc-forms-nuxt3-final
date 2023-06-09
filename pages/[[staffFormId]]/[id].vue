@@ -166,7 +166,8 @@
         >
          <span >Submit</span>
         </v-btn>
-        <v-btn
+        <ParentSubmit :parentFirstName="parentFirstName" :parentLastName="parentLastName" :parentSignature="parentSignature" :formFields="formFields" :templateData="templateData" :formData="formData" v-if="!store.appLoading && !processing && staffFormId !== 'new-form'" />
+        <!-- <v-btn
       v-if="!processing && staffFormId !== 'new-form'"
       color="primary"
       dark
@@ -175,7 +176,7 @@
       @click="submitParentSign"
     >
      <span >Submit</span>
-    </v-btn>
+    </v-btn> -->
   
     </v-card-text>
   
@@ -213,6 +214,7 @@
   import BaseSubItem from "@/components/Form/Fields/BaseSubItem.vue";
 
   import AutoEducator from "@/components/Form/Fields/AutoEducator.vue";
+import ParentSubmit from '~~/components/Form/ParentSubmit.vue';
   
   export default {
     setup() {
@@ -224,29 +226,28 @@
           };
       },
       components: {
-
-     BaseSignature,
-      BaseTitle,
-      DialogLeave,
-      BaseTextField,
-      BaseTextArea,
-      BaseDate,
-      BaseSwitch,
-      BaseDropDown,
-      BaseRadio,
-      BaseCheckBox,
-      BaseTime,
-      BaseUpload,
-      BaseInformation,
-      BaseTable,
-      BaseSubItem,
-      AutoEducator,
-
-  },
+    BaseSignature,
+    BaseTitle,
+    DialogLeave,
+    BaseTextField,
+    BaseTextArea,
+    BaseDate,
+    BaseSwitch,
+    BaseDropDown,
+    BaseRadio,
+    BaseCheckBox,
+    BaseTime,
+    BaseUpload,
+    BaseInformation,
+    BaseTable,
+    BaseSubItem,
+    AutoEducator,
+    ParentSubmit
+},
       data() {
           return {
             processing: false,
-            submitted: false,
+           // submitted: false,
             openDialog: false,
             functionResolve: null,
             //
@@ -315,6 +316,9 @@
               columnTwoSyle: "width:50%; padding: 10px;  font-size: 18px; font-family: Arial, Helvetica, sans-serif; border: 1px solid black;" ,
               columnOneClass: 'font-weight-bold text-black text-h6',
               titleStyle: 'font-weight:bold;  color: #2196F3; font-size: 22px; font-family: Arial, Helvetica, sans-serif; ',
+              // parent sign
+              templateData: null,
+              formData: null,
           }
       },
     mounted() {
@@ -331,7 +335,7 @@
       })
     },
       beforeRouteLeave(to, from, next) {
-        if (!this.submitted)
+        if (!this.store.submitted)
         {
       this.store.dialogLeave = true
       this.store.createPromise().then(res => {
@@ -456,7 +460,7 @@
            
            try { await vm.store.addDocument('mail', info)
           .then((res) => { 
-            vm.submitted = true
+            vm.store.submitted = true
            vm.$router.push('/')
            vm.store.formComplete(vm.parentFirstName)
            vm.store.snackbarSet('green', 'Success', 'Form Submitted!')
@@ -734,6 +738,7 @@
                   vm.store.appLoading = false
                 }
                 else  {
+                  vm.templateData = res.data.value
                   vm.order = res.data.value.order;
                     vm.formType = res.data.value.formType;
                     vm.formId = res.data.value.formId;
@@ -756,36 +761,6 @@
               vm.store.snackbarSet('red', 'Error', `Something went wrong. Err: ${err}`)
              }
         },
-
-        // parent sign methods
-        async submitParentSign () {
-        var vm = this
-        
-        if (vm.parentRequired === true && (vm.parentFirstName === '' || vm.parentFirstName === null || vm.parentFirstName === undefined))
-          {vm.store.snackbarSet('pink', 'Error', 'Please add Parent / Guardian First Name')}
-          else if (vm.parentRequired === true && (vm.parentLastName === '' || vm.parentLastName === null || vm.parentLastName === undefined))
-          {vm.store.snackbarSet('pink', 'Error', 'Please add Parent / Guardian Last Name')}
-           else if (vm.parentRequired === true && (vm.parentSignature === '' || vm.parentSignature === null || vm.parentSignature === undefined))
-          {vm.store.snackbarSet('pink', 'Error', 'Please add Parent / Guardian Signature')}
-          else {
-            vm.processing = true
-            const info = {
-              parentFirstName: vm.parentFirstName,
-           parentLastName: vm.parentLastName,
-        //   childRequired: vm.childRequired,
-           parentDateSigned: format(new Date(), 'dd/MM/yyyy'),
-            parentTimeSigned: format(new Date(), 'HH:mm'),
-            parentSignature: vm.parentSignature,
-            }
-            vm.store.updateDocument('forms', this.staffFormId, info).then(() => {
-              vm.store.snackbarSet('green', 'Success', 'Form Submitted')
-                vm.submitted = true
-                vm.processing = false
-                vm.$router.push('/')
-                vm.store.formComplete(vm.parentFirstName)
-            })
-          }
-      },
           // PArent Sign MEthods
           async fetchFormFields () {
       var vm = this
@@ -800,6 +775,7 @@
                   vm.store.appLoading = false
                 }
                 else  {
+                  vm.formData = res.data.value
                   vm.formSaved = res.data.value.formSaved
            vm.stampDate = res.data.value.stampDate
            vm.stampTime = res.data.value.stampTime
