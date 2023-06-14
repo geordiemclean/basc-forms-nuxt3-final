@@ -285,7 +285,6 @@
       },
       mounted () {
         this.fetchCwaData();
-        this.fetchChildData();
       },
       computed: {
           activebookings: function () {
@@ -453,6 +452,8 @@
                   vm.businessName = res.data.value.businessName;
                   vm.businessABN = res.data.value.businessABN;
                   vm.serviceName = res.data.value.serviceName;
+
+                  vm.fetchChildData();
                 }
                })
              }
